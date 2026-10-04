@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Marketing Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b12; --card:#151522; --card2:#1c1c2c; --line:#2a2a3d;
+  --text:#f2f2f7; --muted:#9a9ab0;
+  --c1:#ff4d8d; --c2:#7c5cff; --c3:#22d3ee; --c4:#a3e635;
+  --c5:#fb923c; --c6:#facc15; --c7:#38bdf8; --c8:#e879f9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;letter-spacing:-.02em}
+
+/* hero */
+.hero{padding:64px 0 40px;text-align:center}
+.tag{display:inline-block;padding:6px 14px;border:1px solid var(--line);border-radius:99px;color:var(--muted);font-size:13px;margin-bottom:18px}
+.hero h1{font-size:clamp(34px,7vw,68px);line-height:1.05}
+.grad{background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);margin:16px auto 0;max-width:560px}
+.stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 20px}
+.stat b{font-family:"Space Grotesk";font-size:24px;display:block}
+.stat span{font-size:12px;color:var(--muted)}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:5;background:rgba(11,11,18,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0}
+.progress .wrap{display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:8px;background:var(--card2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c3));transition:width .4s}
+.progress small{color:var(--muted);font-size:13px;white-space:nowrap}
+
+section{padding:48px 0}
+.sec-title{font-size:clamp(24px,4vw,36px);margin-bottom:6px}
+.sec-sub{color:var(--muted);margin-bottom:24px}
+
+/* flow map */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.node{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;cursor:pointer;position:relative;transition:transform .2s,border-color .2s}
+.node:hover{transform:translateY(-4px);border-color:var(--accent)}
+.node .num{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:700;background:var(--accent);color:#0b0b12;margin-bottom:10px;font-family:"Space Grotesk"}
+.node h3{font-size:17px}
+.node p{font-size:13px;color:var(--muted)}
+.node .wk{font-size:11px;color:var(--accent);margin-top:8px;font-weight:600}
+.node.done{border-color:var(--accent)}
+.node.done::after{content:"✓";position:absolute;top:14px;right:16px;color:var(--accent);font-weight:700}
+.capstone{margin-top:14px;padding:18px;border-radius:18px;text-align:center;font-weight:600;
+  background:linear-gradient(90deg,rgba(255,77,141,.15),rgba(124,92,255,.15),rgba(34,211,238,.15));border:1px solid var(--c2)}
+
+/* stage detail */
+.stage{background:var(--card);border:1px solid var(--line);border-radius:22px;margin-bottom:18px;overflow:hidden;border-left:4px solid var(--accent)}
+.stage-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer}
+.stage-head .num{min-width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:#0b0b12;font-weight:700;font-family:"Space Grotesk";font-size:18px}
+.stage-head h3{font-size:20px}
+.stage-head small{color:var(--muted)}
+.stage-head .chev{margin-left:auto;transition:transform .3s;color:var(--muted);font-size:20px}
+.stage.open .chev{transform:rotate(180deg)}
+.stage-body{display:none;padding:0 20px 22px}
+.stage.open .stage-body{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.box{background:var(--card2);border-radius:16px;padding:16px}
+.box h4{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--bg);border:1px solid var(--line);padding:6px 12px;border-radius:99px;font-size:13px}
+.swap{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.swap:last-child{border:0}
+.swap .need{color:var(--muted);font-size:12px;min-width:92px}
+.swap .main{font-weight:600}
+.swap .alt{color:var(--muted)}
+.swap .arrow{color:var(--accent)}
+.vids a{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;text-decoration:none;font-size:14px;transition:background .2s}
+.vids a:hover{background:var(--bg)}
+.vids .play{width:30px;height:30px;border-radius:50%;background:#ff0033;display:grid;place-items:center;font-size:11px;flex-shrink:0}
+.task{margin-top:18px;padding:16px;border-radius:16px;border:1px dashed var(--accent);display:flex;gap:12px;align-items:flex-start}
+.task label{display:flex;gap:12px;cursor:pointer;align-items:flex-start}
+.task input{width:20px;height:20px;accent-color:var(--accent);margin-top:2px;flex-shrink:0}
+.task b{color:var(--accent)}
+
+/* courses */
+.courses{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.course{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:transform .2s,border-color .2s}
+.course:hover{transform:translateY(-3px);border-color:var(--c2)}
+.course h3{font-size:16px}
+.course .by{color:var(--muted);font-size:13px}
+.course .meta{display:flex;gap:6px;margin-top:auto;padding-top:10px}
+.pill{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600}
+.free{background:rgba(163,230,53,.15);color:var(--c4)}
+.paid{background:rgba(251,146,60,.15);color:var(--c5)}
+.st{background:var(--card2);color:var(--muted)}
+
+/* projects */
+.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.proj{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.proj .emoji{font-size:30px}
+.proj h3{margin:8px 0 10px;font-size:18px}
+.proj dl{font-size:14px}
+.proj dt{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-top:10px}
+.proj dd{margin-top:2px}
+.kpi{color:var(--c4);font-weight:600}
+
+footer{color:var(--muted);text-align:center;font-size:13px;padding:40px 0 60px}
+
+@media (max-width:820px){
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+}
+@media (max-width:420px){
+  .flow{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <span class="tag">⚡ Basic → Advanced · 2026 edition</span>
+  <h1>Digital Marketing <span class="grad">with AI</span></h1>
+  <p>8 stages. Real tools. Real projects. Tap any stage to open it.</p>
+  <div class="stats">
+    <div class="stat"><b>8</b><span>Stages</span></div>
+    <div class="stat"><b>~36</b><span>Weeks</span></div>
+    <div class="stat"><b>45+</b><span>Platforms</span></div>
+    <div class="stat"><b>14</b><span>Top courses</span></div>
+  </div>
+</header>
+
+<div class="progress"><div class="wrap">
+  <small>Your progress</small>
+  <div class="bar"><i id="barFill"></i></div>
+  <small id="barText">0 / 8 tasks</small>
+</div></div>
+
+<main class="wrap">
+
+  <section>
+    <h2 class="sec-title">🗺️ The Flow</h2>
+    <p class="sec-sub">Follow in order. Each stage builds on the last.</p>
+    <div class="flow" id="flow"></div>
+    <div class="capstone">🏆 Capstone — real branding + growth projects → published case studies</div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">📚 Stage by Stage</h2>
+    <p class="sec-sub">Learn → Tools (main ⇄ alternative) → Watch → Do.</p>
+    <div id="stages"></div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">🎓 Top Courses Worldwide</h2>
+    <p class="sec-sub">Free first, paid when you want the certificate.</p>
+    <div class="courses" id="courses"></div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">🚀 Real Projects</h2>
+    <p class="sec-sub">Solve real branding + growth problems. Do 3, write case studies.</p>
+    <div class="projects" id="projects"></div>
+  </section>
+
+</main>
+
+<footer>Course links from general knowledge — confirm pricing on each page. Video links open YouTube search results.</footer>
+
+<script>
+const yt = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+
+const stages = [
+  {n:1,c:"--c1",name:"Foundations",sub:"Marketing + AI basics",wk:"Weeks 1–3",
+   learn:["4Ps / 7Ps","STP","Buyer persona","Customer journey","AIDA","Funnel TOFU/MOFU/BOFU","Brand positioning","Value proposition","Brand voice","Owned / earned / paid","How LLMs work","Prompt engineering","AI ethics"],
+   tools:[["AI assistant","ChatGPT","Claude, Gemini"],["Research","Perplexity","Gemini Deep Research"],["Planning","Notion","Google Docs"],["Trends","Google Trends","Exploding Topics"]],
+   vids:[["Google Digital Garage — Fundamentals","google digital garage fundamentals of digital marketing"],["Marketing funnel explained","hubspot marketing funnel explained"],["Prompt engineering for marketers","prompt engineering for marketers"]],
+   task:"Pick a real local business. Use AI to build a 1-page brand brief: 3 personas, positioning, 5 competitors, voice guide."},
+  {n:2,c:"--c2",name:"Content",sub:"Copy, design, AI creative",wk:"Weeks 4–7",
+   learn:["AIDA / PAS copy","Hooks + CTAs","Content pillars","Content calendar","Repurposing","Storytelling","Video scripting","Design basics","AI images","AI video","AI voice"],
+   tools:[["Copywriting","ChatGPT / Claude","Jasper, Copy.ai"],["Design","Canva","Adobe Express"],["AI images","Midjourney","Firefly, Ideogram"],["Video edit","CapCut","Descript, Premiere"],["AI avatars","HeyGen","Synthesia, Runway"],["Voiceover","ElevenLabs","Murf"]],
+   vids:[["Copywriting for beginners","copywriting for beginners full course"],["Canva for social media","canva tutorial social media beginners"],["Content strategy with AI","content marketing strategy with AI"]],
+   task:"Build a 30-day content calendar, 10 designed posts and 3 AI-assisted reels for the same business."},
+  {n:3,c:"--c3",name:"SEO",sub:"Google + AI search",wk:"Weeks 8–11",
+   learn:["Keyword research","Search intent","Topic clusters","On-page SEO","Schema","Technical SEO","Core Web Vitals","Backlinks","Local SEO","GEO / AEO (AI search)"],
+   tools:[["Search data","Search Console","Bing Webmaster"],["SEO suite","Semrush","Ahrefs, Ubersuggest"],["Website","WordPress + Rank Math","Webflow, Shopify"],["Local","Google Business Profile","Bing Places"],["Audit","Screaming Frog","Sitebulb"]],
+   vids:[["Ahrefs — SEO for beginners","ahrefs seo for beginners"],["Search Console tutorial","google search console tutorial"],["How to rank in AI search","generative engine optimization GEO tutorial"]],
+   task:"Audit the site, fix 10 on-page issues, publish 4 keyword-targeted articles, optimise Google Business Profile."},
+  {n:4,c:"--c4",name:"Social media",sub:"Organic growth",wk:"Weeks 12–15",
+   learn:["Algorithms","Reels / Shorts","Carousels","Posting rhythm","Community","UGC","Influencers","Personal branding","Social listening"],
+   tools:[["Scheduling","Meta Business Suite","Buffer, Hootsuite"],["B2B social","LinkedIn","X"],["Short video","Reels / TikTok","YouTube Shorts"],["Listening","Brand24","Mention, Sprout"],["Influencers","IG Creator Marketplace","Modash, Upfluence"]],
+   vids:[["Instagram growth strategy","instagram growth strategy for business"],["TikTok for brands","tiktok marketing for brands tutorial"],["LinkedIn personal branding","linkedin personal branding strategy"]],
+   task:"Grow one brand account 0 → 1,000 followers in 60 days. Report reach, engagement rate, top 5 posts."},
+  {n:5,c:"--c5",name:"Paid ads",sub:"Google, Meta, TikTok",wk:"Weeks 16–20",
+   learn:["Ad funnel","Google Search","Performance Max","YouTube ads","Meta Advantage+","Pixel + CAPI","TikTok ads","LinkedIn ads","Bidding","A/B creatives","CTR · CPC · CPA · ROAS"],
+   tools:[["Search ads","Google Ads","Microsoft Ads"],["Social ads","Meta Ads Manager","TikTok Ads"],["B2B ads","LinkedIn Ads","X Ads"],["Spy on ads","Meta Ad Library","Google Ads Transparency"],["AI creative","AdCreative.ai","Canva + ChatGPT"]],
+   vids:[["Google Ads for beginners","google ads tutorial for beginners"],["Meta Ads full course","facebook meta ads full course"],["Performance Max explained","google performance max explained"]],
+   task:"Run a $50–100 campaign with 3 creatives. Report CTR, CPA, ROAS. Kill the weakest one."},
+  {n:6,c:"--c6",name:"Email + CRM",sub:"Automation, WhatsApp",wk:"Weeks 21–24",
+   learn:["Lead magnets","Landing pages","Segmentation","Welcome / nurture flows","Win-back","SPF · DKIM · DMARC","WhatsApp marketing","CRM pipeline","Lead scoring","No-code automation"],
+   tools:[["Email","Mailchimp","Brevo, Klaviyo"],["CRM","HubSpot CRM","Zoho CRM"],["Landing pages","Systeme.io","Leadpages, Unbounce"],["WhatsApp","Wati","Interakt, AiSensy"],["Automation","Zapier","Make, n8n"]],
+   vids:[["Email marketing for beginners","email marketing for beginners full course"],["HubSpot CRM tutorial","hubspot crm tutorial"],["Zapier / Make automation","zapier make marketing automation tutorial"]],
+   task:"Build lead magnet + landing page → CRM → 5-email AI-written welcome sequence, fully automated."},
+  {n:7,c:"--c7",name:"Analytics",sub:"GA4, dashboards, CRO",wk:"Weeks 25–28",
+   learn:["GA4 events","Conversions","Attribution","Tag Manager","UTMs","CAC · LTV · churn","Dashboards","Heatmaps","A/B tests","AI data analysis"],
+   tools:[["Analytics","Google Analytics 4","Matomo, Plausible"],["Tags","Tag Manager","Segment"],["Dashboards","Looker Studio","Power BI"],["Heatmaps","Microsoft Clarity","Hotjar"],["A/B tests","VWO","Optimizely"],["AI analysis","ChatGPT","Claude, Julius AI"]],
+   vids:[["GA4 full tutorial","google analytics 4 full tutorial"],["Tag Manager for beginners","google tag manager for beginners"],["Looker Studio dashboard","looker studio marketing dashboard tutorial"]],
+   task:"Set up GA4 + GTM + UTMs, build a Looker Studio dashboard, run 1 landing-page A/B test."},
+  {n:8,c:"--c8",name:"Advanced AI",sub:"Agents, growth loops",wk:"Weeks 29–36",
+   learn:["AI agents","Multi-step workflows","Personalisation at scale","AI chatbots","Predictive analytics","Programmatic SEO","Growth loops","Experimentation","Marketing mix modelling","Brand strategy","Data privacy"],
+   tools:[["Agents","n8n","Make, Zapier Agents"],["Custom AI","Custom GPTs","Claude Projects, Gems"],["Chatbot","ManyChat","Intercom Fin, Tidio"],["Personalise","HubSpot","Klaviyo, Braze"],["AI video","HeyGen","Synthesia"]],
+   vids:[["n8n AI agents for marketing","n8n ai agent marketing automation"],["Growth loops explained","growth loops explained reforge"],["ManyChat automation","manychat instagram automation tutorial"]],
+   task:"Build an AI agent that finds trends, drafts posts, makes visuals and schedules weekly + a DM bot that drops leads into CRM."}
+];
+
+const courses = [
+  ["Google Digital Marketing & E-commerce","Google · Coursera","1–7","paid","https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce"],
+  ["Google AI Essentials","Google","1","paid","https://grow.google/ai-essentials/"],
+  ["Generative AI for Everyone","DeepLearning.AI","1","free","https://www.deeplearning.ai/courses/generative-ai-for-everyone/"],
+  ["Digital Marketing Specialization","Univ. of Illinois · Coursera","1–7","paid","https://www.coursera.org/specializations/digital-marketing"],
+  ["HubSpot Academy","HubSpot","2, 6","free","https://academy.hubspot.com"],
+  ["Semrush Academy","Semrush","3","free","https://www.semrush.com/academy/"],
+  ["Ahrefs Academy","Ahrefs","3","free","https://ahrefs.com/academy"],
+  ["Meta Blueprint","Meta","4, 5","free","https://www.facebook.com/business/learn"],
+  ["Google Skillshop (Ads + GA4)","Google","5, 7","free","https://skillshop.withgoogle.com"],
+  ["LinkedIn Marketing Labs","LinkedIn","4, 5","free","https://training.marketing.linkedin.com"],
+  ["Klaviyo Academy","Klaviyo","6","free","https://academy.klaviyo.com"],
+  ["CXL — CRO, Growth, Analytics","CXL","7, 8","paid","https://cxl.com"],
+  ["Reforge Growth Programs","Reforge","8","paid","https://www.reforge.com"],
+  ["Digital Marketing Institute","DMI","1–8","paid","https://digitalmarketinginstitute.com"]
+];
+
+const projects = [
+  ["☕","Local restaurant / café","Low footfall, weak online presence","Brand refresh, local SEO, reels, Meta ads","+30% profile views, direct orders"],
+  ["🛍️","E-commerce brand","Traffic but low sales","Funnel audit, retargeting, Klaviyo flows, CRO","Conversion rate, ROAS ≥ 3"],
+  ["🧑‍💻","Personal brand (you)","No visibility in market","LinkedIn + YouTube system, portfolio site","1,000 followers, inbound leads"],
+  ["💼","B2B / SaaS startup","No qualified leads","Positioning, SEO cluster, LinkedIn ads, CRM nurture","Cost per qualified lead"],
+  ["💚","NGO / local cause","Low awareness, few donors","Story campaign, email list, AI video","Signups, donations"],
+  ["📉","Brand rebuild","Declining engagement","Social audit, new pillars, AI agent posting","Engagement up in 60 days"]
+];
+
+const done = new Set();
+
+function render(){
+  document.getElementById("flow").innerHTML = stages.map(s => `
+    <div class="node ${done.has(s.n)?"done":""}" style="--accent:var(${s.c})" onclick="jump(${s.n})">
+      <div class="num">${s.n}</div><h3>${s.name}</h3><p>${s.sub}</p><div class="wk">${s.wk}</div>
+    </div>`).join("");
+
+  const pct = done.size / stages.length * 100;
+  document.getElementById("barFill").style.width = pct + "%";
+  document.getElementById("barText").textContent = `${done.size} / ${stages.length} tasks`;
+}
+
+document.getElementById("stages").innerHTML = stages.map(s => `
+  <div class="stage ${s.n===1?"open":""}" id="stage-${s.n}" style="--accent:var(${s.c})">
+    <div class="stage-head" onclick="toggle(${s.n})">
+      <div class="num">${s.n}</div>
+      <div><h3>${s.name}</h3><small>${s.sub} · ${s.wk}</small></div>
+      <span class="chev">⌄</span>
+    </div>
+    <div class="stage-body">
+      <div class="box" style="margin-bottom:18px"><h4>🧠 Learn</h4>
+        <div class="chips">${s.learn.map(l=>`<span class="chip">${l}</span>`).join("")}</div></div>
+      <div class="grid2">
+        <div class="box"><h4>🛠️ Platforms · main ⇄ alternative</h4>
+          ${s.tools.map(t=>`<div class="swap"><span class="need">${t[0]}</span><span class="main">${t[1]}</span><span class="arrow">⇄</span><span class="alt">${t[2]}</span></div>`).join("")}
+        </div>
+        <div class="box vids"><h4>▶️ Watch</h4>
+          ${s.vids.map(v=>`<a href="${yt(v[1])}" target="_blank" rel="noopener"><span class="play">▶</span>${v[0]}</a>`).join("")}
+        </div>
+      </div>
+      <div class="task"><label><input type="checkbox" onchange="mark(${s.n},this.checked)"><span><b>Practice task:</b> ${s.task}</span></label></div>
+    </div>
+  </div>`).join("");
+
+document.getElementById("courses").innerHTML = courses.map(c => `
+  <a class="course" href="${c[4]}" target="_blank" rel="noopener">
+    <h3>${c[0]}</h3><span class="by">${c[1]}</span>
+    <div class="meta"><span class="pill ${c[3]}">${c[3]==="free"?"Free":"Paid"}</span><span class="pill st">Stage ${c[2]}</span></div>
+  </a>`).join("");
+
+document.getElementById("projects").innerHTML = projects.map(p => `
+  <div class="proj"><div class="emoji">${p[0]}</div><h3>${p[1]}</h3>
+    <dl><dt>Problem</dt><dd>${p[2]}</dd><dt>Deliver</dt><dd>${p[3]}</dd><dt>KPI</dt><dd class="kpi">${p[4]}</dd></dl>
+  </div>`).join("");
+
+function toggle(n){ document.getElementById("stage-"+n).classList.toggle("open"); }
+function jump(n){
+  const el = document.getElementById("stage-"+n);
+  el.classList.add("open");
+  el.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function mark(n,on){ on ? done.add(n) : done.delete(n); render(); }
+
+render();
+</script>
+</body>
+</html>
